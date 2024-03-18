@@ -5,6 +5,8 @@ from tkinter import messagebox
 import matplotlib.pyplot as plt
 import numpy as np
 
+clocationsList = None
+
 def fetch_creditors_data():
     try:
         global clocationsList
@@ -27,7 +29,7 @@ def top_10_most_credit_countries():
             messagebox.showerror("Error", "Please fetch creditor data first.")
             return
 
-        top_10_most_credit = clocationsList.head(10)
+        top_10_most_credit = clocationsList.nlargest(10, 'id')
         plt.bar(top_10_most_credit['value'], top_10_most_credit['id'])
         plt.xlabel('Country')
         plt.ylabel('Credit')
@@ -44,7 +46,7 @@ def top_10_least_credit_countries():
             messagebox.showerror("Error", "Please fetch creditor data first.")
             return
 
-        top_10_least_credit = clocationsList.tail(10)
+        top_10_least_credit = clocationsList.nsmallest(10, 'id')
         plt.bar(top_10_least_credit['value'], top_10_least_credit['id'])
         plt.xlabel('Country')
         plt.ylabel('Credit')
